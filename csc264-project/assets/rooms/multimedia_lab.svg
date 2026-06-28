@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 248" role="img" aria-label="Multimedia lab">
+  <defs>
+    <linearGradient id="mmBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ECEBFC"/><stop offset="1" stop-color="#DCDCFA"/>
+    </linearGradient>
+    <g id="mmPc">
+      <rect x="2" y="2" width="48" height="32" rx="5" fill="#C4C7F2"/>
+      <rect x="7" y="7" width="38" height="22" rx="3" fill="#5FC6E8"/>
+      <rect x="11" y="11" width="20" height="4" rx="2" fill="#FFFFFF" fill-opacity="0.85"/>
+      <rect x="11" y="18" width="28" height="3" rx="1.5" fill="#FFFFFF" fill-opacity="0.6"/>
+      <rect x="20" y="34" width="12" height="6" rx="2" fill="#8A86C2"/>
+      <rect x="14" y="40" width="24" height="4" rx="2" fill="#A6A2D6"/>
+    </g>
+  </defs>
+  <rect width="440" height="248" fill="url(#mmBg)"/>
+  <!-- whiteboard -->
+  <rect x="118" y="24" width="190" height="44" rx="9" fill="#FFFFFF" stroke="#CBC9EE" stroke-width="2"/>
+  <rect x="132" y="38" width="120" height="6" rx="3" fill="#E0DEF6"/>
+  <rect x="132" y="50" width="150" height="5" rx="2.5" fill="#ECEBF9"/>
+  <!-- media accents: play button + note -->
+  <circle cx="356" cy="46" r="22" fill="#6C5CE7"/>
+  <polygon points="350,36 350,56 368,46" fill="#FFFFFF"/>
+  <circle cx="74" cy="44" r="9" fill="none" stroke="#6C5CE7" stroke-width="3"/>
+  <rect x="80" y="42" width="14" height="4" rx="2" fill="#6C5CE7"/>
+  <!-- workstation grid 5 x 3 -->
+  <g>
+    <use href="#mmPc" x="20"  y="92"/><use href="#mmPc" x="98"  y="92"/><use href="#mmPc" x="176" y="92"/><use href="#mmPc" x="254" y="92"/><use href="#mmPc" x="332" y="92"/>
+    <use href="#mmPc" x="20"  y="148"/><use href="#mmPc" x="98"  y="148"/><use href="#mmPc" x="176" y="148"/><use href="#mmPc" x="254" y="148"/><use href="#mmPc" x="332" y="148"/>
+    <use href="#mmPc" x="20"  y="204"/><use href="#mmPc" x="98"  y="204"/><use href="#mmPc" x="176" y="204"/><use href="#mmPc" x="254" y="204"/><use href="#mmPc" x="332" y="204"/>
+  </g>
+</svg>

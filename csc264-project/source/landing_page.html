@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Room Booking System | UiTM Cawangan Perak, Kampus Tapah</title>
+    <meta name="description" content="A 3D campus room booking experience for UiTM Tapah with live availability, secure reservation and moderator approval." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="icon" type="image/png" href="../assets/rbs_logo.png" />
+    <link rel="stylesheet" href="../css/landing.css" />
+</head>
+<body>
+    <div class="r3-progress" id="r3Progress" aria-hidden="true"></div>
+    <div class="welcome-bar" id="welcomeBar" hidden></div>
+
+    <header class="r3-nav" id="nav">
+        <a class="r3-brand" href="#home" aria-label="Room Booking System home">
+            <span class="r3-logo"><img src="../assets/rbs_logo.png" alt="RBS UiTM Tapah logo" /></span>
+            <span>
+                <strong>Room Booking System</strong>
+                <small>UiTM Cawangan Perak, Kampus Tapah</small>
+            </span>
+        </a>
+
+        <nav class="r3-links" id="navLinks" aria-label="Primary navigation">
+            <a href="#availability">Availability</a>
+            <a href="#canvas">3D Flow</a>
+        </nav>
+
+        <div class="r3-nav-actions">
+            <a class="r3-btn r3-btn-ghost" href="login_page.html">Log in</a>
+            <a class="r3-btn r3-btn-primary" href="login_page.html">Book now</a>
+            <button class="r3-menu" id="navBurger" type="button" aria-label="Toggle navigation" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="r3-hero" id="home">
+            <canvas id="r3Scene" class="r3-canvas" aria-hidden="true"></canvas>
+            <div class="r3-vignette" aria-hidden="true"></div>
+
+            <div class="r3-hero-copy">
+                <p class="r3-kicker"><span></span> Live availability. Instant reservation.</p>
+                <h1>Room Booking System</h1>
+                <p>
+                    A 3D campus booking experience where every room, lab and facility moves through
+                    one clean flow: discover, schedule, pay, approve and track.
+                </p>
+                <div class="r3-hero-actions">
+                    <a class="r3-btn r3-btn-primary r3-btn-lg" href="login_page.html"><i class="fas fa-calendar-check"></i> Start booking</a>
+                    <a class="r3-btn r3-btn-glass r3-btn-lg" href="#canvas"><i class="fas fa-cube"></i> Explore flow</a>
+                </div>
+            </div>
+
+            <form class="r3-booking-dock" id="bookingWidget" onsubmit="return false;">
+                <div class="r3-field">
+                    <label for="bkDate"><i class="far fa-calendar"></i> Date</label>
+                    <input type="date" id="bkDate" />
+                </div>
+                <div class="r3-field">
+                    <label for="bkTime"><i class="far fa-clock"></i> Start time</label>
+                    <select id="bkTime">
+                        <option value="">Any time</option>
+                        <option>08:00</option>
+                        <option>09:00</option>
+                        <option>10:00</option>
+                        <option>11:00</option>
+                        <option>12:00</option>
+                        <option>14:00</option>
+                        <option>15:00</option>
+                        <option>16:00</option>
+                        <option>17:00</option>
+                    </select>
+                </div>
+                <div class="r3-field">
+                    <label for="bkCat"><i class="fas fa-layer-group"></i> Space type</label>
+                    <select id="bkCat">
+                        <option value="">All spaces</option>
+                        <option value="BILIK KULIAH">Bilik Kuliah</option>
+                        <option value="BILIK MESYUARAT">Bilik Mesyuarat</option>
+                        <option value="BILIK SEMINAR">Bilik Seminar</option>
+                        <option value="DEWAN">Dewan</option>
+                        <option value="MAKMAL KOMPUTER">Makmal Komputer</option>
+                        <option value="GELANGGANG">Gelanggang</option>
+                        <option value="GIMNASIUM">Gimnasium</option>
+                        <option value="SURAU">Surau</option>
+                        <option value="PADANG">Padang</option>
+                    </select>
+                </div>
+                <button class="r3-search" id="bkSearch" type="button"><i class="fas fa-magnifying-glass"></i> Search</button>
+            </form>
+
+            <div class="r3-scroll-hint" aria-hidden="true">
+                <span>Scroll</span>
+                <i class="fas fa-arrow-down"></i>
+            </div>
+        </section>
+
+        <section class="r3-metrics" aria-label="System highlights">
+            <div><strong data-count="15" data-suffix="+">15+</strong><span>Bookable spaces</span></div>
+            <div><strong data-count="6">6</strong><span>Facility categories</span></div>
+            <div><strong data-count="4">4</strong><span>Booking stages</span></div>
+            <div><strong>24/7</strong><span>Campus access</span></div>
+        </section>
+
+        <section class="r3-availability" id="availability" aria-live="polite">
+            <div class="r3-availability-head">
+                <p class="r3-kicker"><span></span> Availability result</p>
+                <h2>Search a date and see open spaces instantly</h2>
+                <p id="availabilitySummary">Choose a date, optional start time and category from the hero search to preview availability here.</p>
+            </div>
+            <div class="r3-availability-state" id="availabilityState">
+                <i class="fas fa-calendar-check"></i>
+                <strong>Ready to check</strong>
+                <span>The landing page will show available, pending and booked spaces before users log in.</span>
+            </div>
+            <div class="r3-availability-grid" id="availabilityResults" hidden></div>
+        </section>
+
+        <section class="r3-stage" id="canvas">
+            <div class="r3-stage-sticky">
+                <div class="r3-stage-copy">
+                    <p class="r3-kicker"><span></span> Figma-style interaction map</p>
+                    <h2 id="stageTitle">Browse spaces in a visual canvas</h2>
+                    <p id="stageDesc">Scroll down and the interface moves through the same journey your users follow inside the system.</p>
+                </div>
+
+                <div class="r3-figma-board" aria-label="Animated booking flow preview">
+                    <div class="r3-board-top">
+                        <span class="r3-dot red"></span>
+                        <span class="r3-dot amber"></span>
+                        <span class="r3-dot green"></span>
+                        <strong>RBS campus flow.fig</strong>
+                    </div>
+                    <div class="r3-board-grid">
+                        <article class="r3-flow-card is-active" data-step-card="0">
+                            <span>01</span>
+                            <img src="../assets/rooms/bilik_kuliah.jpg" alt="Lecture room" />
+                            <h3>Browse</h3>
+                            <p>Find rooms, labs and courts by category.</p>
+                        </article>
+                        <article class="r3-flow-card" data-step-card="1">
+                            <span>02</span>
+                            <div class="r3-mini-calendar" aria-hidden="true">
+                                <b></b><b class="busy"></b><b></b><b class="pick"></b>
+                                <b></b><b></b><b class="busy"></b><b></b>
+                                <b class="pick"></b><b></b><b></b><b></b>
+                            </div>
+                            <h3>Schedule</h3>
+                            <p>Select a clean available slot.</p>
+                        </article>
+                        <article class="r3-flow-card" data-step-card="2">
+                            <span>03</span>
+                            <div class="r3-pay-ui" aria-hidden="true">
+                                <i class="fas fa-shield-halved"></i>
+                                <strong>RM 34.00</strong>
+                                <small>FPX / Card</small>
+                            </div>
+                            <h3>Pay</h3>
+                            <p>Students continue through ToyyibPay.</p>
+                        </article>
+                        <article class="r3-flow-card" data-step-card="3">
+                            <span>04</span>
+                            <div class="r3-approve-ui" aria-hidden="true">
+                                <i class="fas fa-circle-check"></i>
+                                <strong>Approved</strong>
+                            </div>
+                            <h3>Approve</h3>
+                            <p>Moderators keep the campus flow controlled.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="r3-footer">
+        <a class="r3-brand" href="#home">
+            <span class="r3-logo"><img src="../assets/rbs_logo.png" alt="RBS UiTM Tapah logo" /></span>
+            <span>
+                <strong>Room Booking System</strong>
+                <small>UiTM Cawangan Perak, Kampus Tapah</small>
+            </span>
+        </a>
+        <span>&copy; <span id="yr"></span> RBS UiTM Tapah</span>
+        <a href="../assets/terms_conditions.pdf" target="_blank" rel="noopener">Terms &amp; Conditions</a>
+    </footer>
+
+    <script src="../assets/vendor/three.min.js"></script>
+    <script src="../js/landing.js"></script>
+</body>
+</html>

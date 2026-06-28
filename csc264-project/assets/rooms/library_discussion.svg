@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 248" role="img" aria-label="Library discussion room">
+  <defs>
+    <linearGradient id="libBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F1ECFB"/><stop offset="1" stop-color="#E4DAF6"/>
+    </linearGradient>
+    <g id="shelf">
+      <rect x="0" y="0" width="64" height="120" rx="8" fill="#8A5A3B"/>
+      <rect x="6" y="8"  width="52" height="3" fill="#6E4730"/>
+      <rect x="6" y="64" width="52" height="3" fill="#6E4730"/>
+      <g>
+        <rect x="9"  y="12" width="7" height="48" rx="2" fill="#E15B5B"/>
+        <rect x="18" y="12" width="7" height="48" rx="2" fill="#F2C14E"/>
+        <rect x="27" y="12" width="7" height="48" rx="2" fill="#4E9CE1"/>
+        <rect x="36" y="12" width="7" height="48" rx="2" fill="#5FBF8F"/>
+        <rect x="45" y="12" width="7" height="48" rx="2" fill="#9A6FE0"/>
+        <rect x="9"  y="68" width="7" height="46" rx="2" fill="#4E9CE1"/>
+        <rect x="18" y="68" width="7" height="46" rx="2" fill="#5FBF8F"/>
+        <rect x="27" y="68" width="7" height="46" rx="2" fill="#E15B5B"/>
+        <rect x="36" y="68" width="7" height="46" rx="2" fill="#9A6FE0"/>
+        <rect x="45" y="68" width="7" height="46" rx="2" fill="#F2C14E"/>
+      </g>
+    </g>
+  </defs>
+  <rect width="440" height="248" fill="url(#libBg)"/>
+  <!-- bookshelves left & right -->
+  <use href="#shelf" x="20" y="64"/>
+  <use href="#shelf" x="356" y="64"/>
+  <!-- discussion table -->
+  <ellipse cx="220" cy="132" rx="92" ry="46" fill="#CDBDEc" opacity="0.5"/>
+  <ellipse cx="220" cy="132" rx="68" ry="33" fill="#D7CBF0"/>
+  <ellipse cx="220" cy="132" rx="40" ry="19" fill="#BCA9E6"/>
+  <rect x="206" y="124" width="28" height="16" rx="3" fill="#4F5A78"/>
+  <!-- chairs around the table -->
+  <g fill="#7C5BD0">
+    <rect x="150" y="120" width="22" height="22" rx="6"/>
+    <rect x="268" y="120" width="22" height="22" rx="6"/>
+    <rect x="186" y="84"  width="22" height="20" rx="6"/>
+    <rect x="232" y="84"  width="22" height="20" rx="6"/>
+    <rect x="186" y="160" width="22" height="20" rx="6"/>
+    <rect x="232" y="160" width="22" height="20" rx="6"/>
+  </g>
+</svg>

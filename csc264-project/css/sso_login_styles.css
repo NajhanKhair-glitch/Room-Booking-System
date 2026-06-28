@@ -1,0 +1,463 @@
+/* =====================================================
+   UITM SSO PORTAL - STYLES
+   Designed to look like an official UiTM SSO portal,
+   visually distinct from the Room Booking System.
+   ===================================================== */
+
+:root {
+    --uitm-blue: #003366;
+    --uitm-blue-light: #1E5A9F;
+    --uitm-blue-dark: #002244;
+    --uitm-gold: #FFB81C;
+    --uitm-red: #C8102E;
+    --bg: #F5F7FA;
+    --surface: #FFFFFF;
+    --border: #E2E8F0;
+    --text: #1F2937;
+    --text-secondary: #475569;
+    --text-muted: #94A3B8;
+    --success: #10B981;
+    --error: #EF4444;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ─── UiTM Official Header ─── */
+.uitm-header {
+    background: linear-gradient(135deg, var(--uitm-blue-dark), var(--uitm-blue));
+    color: white;
+    padding: 18px 0;
+    box-shadow: var(--shadow-md);
+    border-bottom: 4px solid var(--uitm-gold);
+}
+
+.uitm-header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.uitm-brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.uitm-logo {
+    width: 54px;
+    height: 54px;
+    background: white;
+    border-radius: 8px;
+    padding: 6px;
+    object-fit: contain;
+}
+
+.uitm-brand-text .uitm-title {
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+.uitm-brand-text .uitm-subtitle {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.8);
+    margin-top: 2px;
+    letter-spacing: 0.3px;
+}
+
+.uitm-secure {
+    background: rgba(16, 185, 129, 0.2);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #6EE7B7;
+    padding: 7px 14px;
+    border-radius: 24px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Language toggle in SSO header */
+.lang-toggle-btn.sso-lang-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    border-radius: 24px;
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 700;
+    font-family: inherit;
+    transition: all 0.2s;
+    margin-left: 12px;
+}
+.lang-toggle-btn.sso-lang-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+.lang-toggle-btn.sso-lang-btn .lang-label {
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* ─── Main Content ─── */
+.sso-main {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.sso-container {
+    width: 100%;
+    max-width: 1000px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+@media (min-width: 900px) {
+    .sso-container {
+        grid-template-columns: 2fr 1.2fr;
+        align-items: start;
+    }
+    .sso-service-banner {
+        grid-column: 1 / -1;
+    }
+}
+
+/* ─── Service Banner ─── */
+.sso-service-banner {
+    background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+    border-left: 4px solid var(--uitm-gold);
+    border-radius: 12px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #78350F;
+    font-size: 0.88rem;
+}
+
+.sso-service-banner i {
+    font-size: 1.3rem;
+    color: var(--uitm-gold);
+}
+
+/* ─── SSO Login Card ─── */
+.sso-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 36px 40px;
+    box-shadow: var(--shadow-lg);
+    border-top: 4px solid var(--uitm-blue);
+}
+
+.sso-card-header {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.sso-card-header h1 {
+    color: var(--uitm-blue);
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.sso-card-header p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+/* ─── Form Fields ─── */
+.sso-field {
+    margin-bottom: 18px;
+}
+
+.sso-field label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.sso-field label i {
+    color: var(--uitm-blue);
+    width: 14px;
+}
+
+.sso-field input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    background: #FAFBFC;
+    color: var(--text);
+    transition: all 0.2s;
+}
+
+.sso-field input:focus {
+    outline: none;
+    border-color: var(--uitm-blue);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+}
+
+.sso-password-wrapper {
+    position: relative;
+}
+
+.sso-toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 6px;
+    font-size: 1rem;
+}
+
+.sso-toggle-password:hover {
+    color: var(--uitm-blue);
+}
+
+/* ─── Error ─── */
+.sso-error {
+    background: #FEF2F2;
+    color: var(--error);
+    border-left: 3px solid var(--error);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    margin: 14px 0;
+    display: none;
+}
+
+.sso-error.show { display: block; }
+
+/* ─── Submit Button ─── */
+.sso-submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--uitm-blue), var(--uitm-blue-light));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.25);
+    margin-top: 8px;
+}
+
+.sso-submit-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 51, 102, 0.35);
+}
+
+.sso-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ─── Divider ─── */
+.sso-divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.sso-divider::before, .sso-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+.sso-divider span {
+    padding: 0 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ─── Back Link ─── */
+.sso-back-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--uitm-blue);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 10px;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.sso-back-link:hover {
+    background: rgba(0, 51, 102, 0.05);
+    text-decoration: underline;
+}
+
+/* ─── Info Sidebar ─── */
+.sso-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sso-info-item {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    border-left: 3px solid var(--uitm-blue);
+}
+
+.sso-info-item i {
+    font-size: 1.4rem;
+    color: var(--uitm-blue);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.sso-info-item strong {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.sso-info-item p {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+}
+
+.sso-info-item code {
+    background: #F1F5F9;
+    color: var(--uitm-blue);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.74rem;
+}
+
+/* ─── Loading Overlay ─── */
+.sso-loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 34, 68, 0.85);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.sso-loading-overlay.show { display: flex; }
+
+.sso-loader {
+    background: white;
+    padding: 36px 48px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    min-width: 320px;
+}
+
+.sso-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--border);
+    border-top-color: var(--uitm-blue);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.sso-loading-text {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.92rem;
+}
+
+/* ─── Footer ─── */
+.uitm-footer {
+    background: var(--uitm-blue-dark);
+    color: rgba(255,255,255,0.8);
+    text-align: center;
+    padding: 20px;
+    font-size: 0.78rem;
+    line-height: 1.6;
+}
+
+.footer-disclaimer {
+    background: rgba(255, 184, 28, 0.15);
+    border: 1px solid rgba(255, 184, 28, 0.3);
+    color: var(--uitm-gold);
+    margin-top: 10px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+    .uitm-header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .uitm-brand { gap: 12px; }
+    .uitm-logo { width: 44px; height: 44px; }
+    .uitm-brand-text .uitm-title { font-size: 0.85rem; }
+    .sso-card { padding: 26px 22px; }
+    .sso-card-header h1 { font-size: 1.25rem; }
+}

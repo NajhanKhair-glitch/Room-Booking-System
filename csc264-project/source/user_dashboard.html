@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>RBS Student Dashboard | Space Booking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="../css/user_dashboard_styles.css" />
+    <link rel="stylesheet" href="../css/bsu_theme.css" />
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" aria-label="Main navigation">
+        <div class="sidebar-logo" id="sidebarLogo" role="button" tabindex="0" title="Back to dashboard home" style="cursor:pointer;">
+            <div class="logo-icon rbs-brand-icon" aria-hidden="true"><img src="../assets/rbs_logo.png" alt="RBS UiTM Tapah logo" /></div>
+            <div><div class="logo-text">RBS | UiTM</div><div class="logo-sub">room booking system</div></div>
+        </div>
+        <div class="role-pill" role="status"><i class="fas fa-graduation-cap" aria-hidden="true"></i> <span data-i18n="role.student">Student · Full Access</span></div>
+        <nav class="nav-menu" role="navigation" aria-label="Student sections">
+            <div class="nav-item" data-view="dashboard" role="link" tabindex="0"><i class="fas fa-chalkboard-user" aria-hidden="true"></i> <span data-i18n="nav.my_dashboard">My Dashboard</span></div>
+            <div class="nav-item" data-view="browseSpaces" role="link" tabindex="0"><i class="fas fa-th-large" aria-hidden="true"></i> <span data-i18n="nav.book_space">Book a Space</span></div>
+            <div class="nav-item has-submenu" data-view="space" id="navSpaceParent" role="button" tabindex="0" aria-expanded="false" aria-controls="spaceSubmenu">
+                <i class="fas fa-door-open" aria-hidden="true"></i> <span data-i18n="nav.space">Space</span>
+                <i class="fas fa-chevron-right chevron-drop" aria-hidden="true"></i>
+            </div>
+            <div class="submenu" id="spaceSubmenu" role="group" aria-label="Space options">
+                <div class="nav-item" data-view="spaceBookingList" role="link" tabindex="0"><i class="fas fa-list-ul" aria-hidden="true"></i> <span data-i18n="nav.space_booking_list">My Bookings</span></div>
+                <div class="nav-item" data-view="calendarView" role="link" tabindex="0"><i class="fas fa-calendar-alt" aria-hidden="true"></i> <span data-i18n="nav.calendar">Calendar</span></div>
+                <div class="nav-item" data-view="moderatorList" role="link" tabindex="0"><i class="fas fa-users" aria-hidden="true"></i> <span data-i18n="nav.moderator_list">Moderator List</span></div>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content" role="main">
+        <div class="top-header">
+            <nav class="breadcrumb" id="topBreadcrumb" aria-label="Breadcrumb"><span data-i18n="common.home">Home</span> <i class="fas fa-chevron-right" aria-hidden="true"></i> <span class="active-crumb" data-i18n="breadcrumb.dashboard">Dashboard</span></nav>
+            <div class="header-right">
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle dark/light mode" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon" id="themeIcon" aria-hidden="true"></i>
+                </button>
+                <button class="theme-toggle-btn" id="langToggleBtn" title="Change language" aria-label="Change language" style="width:auto;padding:0 10px;gap:5px;">
+                    <i class="fas fa-globe" aria-hidden="true"></i>
+                    <span class="lang-label" style="font-size:0.78rem;font-weight:700;">BM</span>
+                </button>
+                <button class="theme-toggle-btn notif-bell" id="notificationBell" title="Notifications" type="button" style="position:relative;">
+                    <i class="fas fa-bell" aria-hidden="true"></i>
+                    <span class="notif-badge" id="notifBadge" style="display:none;"></span>
+                </button>
+                <div class="notif-dropdown" id="notifDropdown">
+                    <div class="notif-header">
+                        <strong>Notifications</strong>
+                        <button class="notif-mark-all" id="markAllReadBtn" type="button">Mark all read</button>
+                    </div>
+                    <div class="notif-list" id="notifList">
+                        <div class="notif-empty">Loading…</div>
+                    </div>
+                </div>
+                <div class="user-profile" id="userProfileBtn" role="button" tabindex="0" aria-haspopup="menu" aria-expanded="false">
+                    <div class="avatar" aria-hidden="true">·</div>
+                    <span class="user-name">Loading…</span>
+                    <i class="fas fa-chevron-down" style="font-size:0.6rem;color:var(--text-muted);" aria-hidden="true"></i>
+                </div>
+                <div class="user-dropdown" id="userDropdown">
+                    <div style="padding:14px 16px;border-bottom:1px solid var(--border-light);">
+                        <div style="font-weight:700;font-size:0.85rem;color:var(--text);" class="dropdown-user-name">Loading…</div>
+                        <div style="font-size:0.7rem;color:var(--text-muted);" class="dropdown-user-email">Loading…</div>
+                    </div>
+                    <div class="theme-row">
+                        <span><i class="fas fa-moon" style="margin-right:6px;"></i> <span data-i18n="common.darkmode">Dark Mode</span></span>
+                        <div class="toggle-switch" id="themeSwitch"></div>
+                    </div>
+                    <div class="user-dropdown-divider"></div>
+                    <button class="user-dropdown-item" onclick="doLogout()">
+                        <i class="fas fa-sign-out-alt"></i> <span data-i18n="common.logout">Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─────────── BROWSE SPACES (facility-portal style facility browser) ─────────── -->
+        <div id="browseSpacesView" class="view-wrapper" style="display:none;" role="region" aria-label="Browse spaces">
+            <div class="bs-layout">
+                <!-- Quick Search Panel -->
+                <aside class="bs-search-panel">
+                    <div class="bs-panel-head">
+                        <i class="fas fa-magnifying-glass"></i> Quick Search
+                    </div>
+                    <div class="bs-field">
+                        <label>Room Name <span class="bs-hint">(eg: Bilik Kuliah)</span></label>
+                        <input type="text" id="bsEvent" placeholder="Search room name…" />
+                    </div>
+                    <div class="bs-field">
+                        <label>Date</label>
+                        <input type="date" id="bsDate" />
+                    </div>
+                    <div class="bs-field">
+                        <label>Facility Category</label>
+                        <select id="bsCategory">
+                            <option value="">-- All --</option>
+                        </select>
+                    </div>
+                    <button class="bs-search-btn" id="bsSearchBtn" type="button">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+
+                    <div class="bs-mini-nav">
+                        <a class="bs-mini-link" data-view="dashboard"><i class="fas fa-th"></i> My Dashboard</a>
+                        <a class="bs-mini-link is-active"><i class="fas fa-building"></i> Book a Space</a>
+                        <a class="bs-mini-link" data-view="spaceBookingList"><i class="fas fa-list"></i> My Bookings</a>
+                        <a class="bs-mini-link" data-view="calendarView"><i class="far fa-calendar"></i> Calendar</a>
+                    </div>
+                </aside>
+
+                <!-- Main results -->
+                <section class="bs-results">
+                    <div class="bs-tabs-row">
+                        <button class="bs-tab is-active" data-bstab="space"><i class="fas fa-door-open"></i> Space</button>
+                        <button class="bs-tab" data-bstab="other" disabled title="Coming soon"><i class="fas fa-couch"></i> Accommodation</button>
+                    </div>
+
+                    <div class="bs-result-header">
+                        <h2><i class="fas fa-magnifying-glass"></i> Found <span id="bsCount">0</span> facilities at <strong>UiTM Cawangan Perak, Kampus Tapah</strong>.</h2>
+                        <p class="bs-result-note"><em>(Prices shown include hourly rate · technician charges & equipment reservation are extra)</em></p>
+                    </div>
+
+                    <div class="bs-card-list" id="bsCardList">
+                        <div class="bs-loading"><i class="fas fa-spinner fa-spin"></i> Loading available spaces…</div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- ─────────── SPACE DETAIL VIEW ─────────── -->
+        <div id="spaceDetailNewView" class="view-wrapper" style="display:none;" role="region" aria-label="Space detail">
+            <div class="sd-card">
+                <div class="sd-head">
+                    <h2 class="sd-title"><i class="fas fa-magnifying-glass"></i> <span id="sdSpaceName">—</span></h2>
+                    <button class="sd-back-btn" onclick="switchToView('browseSpaces')"><i class="fas fa-arrow-left"></i> Back to Spaces</button>
+                </div>
+
+                <div class="sd-hero">
+                    <div class="sd-image-wrap">
+                        <img id="sdImage" src="" alt="" class="sd-image" />
+                        <div id="sdImageFallback" class="sd-image-fallback"><i class="fas fa-door-open"></i></div>
+                    </div>
+                    <div class="sd-pricing">
+                        <div class="sd-pricing-label">Price starting from</div>
+                        <div class="sd-price-row"><span class="sd-price sd-price-1h" id="sdPrice1h">RM 0.00</span> <span class="sd-price-meta">/ 1 Hour</span></div>
+                        <div class="sd-price-row"><span class="sd-price sd-price-4h" id="sdPrice4h">RM 0.00</span> <span class="sd-price-meta">/ 4 Hours</span></div>
+                        <div class="sd-price-row"><span class="sd-price sd-price-day" id="sdPriceDay">RM 0.00</span> <span class="sd-price-meta">/ Full Day</span></div>
+                        <div class="sd-price-hint">* Day duration is <span id="sdOpTime">08:00 - 18:00</span></div>
+                        <hr class="sd-divider"/>
+                        <button class="sd-avail-btn" id="sdAvailabilityBtn">
+                            <i class="far fa-calendar-check"></i> Availability
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sd-section">
+                    <div class="sd-section-head">For further enquiry, please contact:</div>
+                    <div class="sd-contacts">
+                        <div class="sd-contact">
+                            <strong>Facility Management Office</strong>
+                            <div class="sd-contact-role">UiTM Cawangan Perak, Kampus Tapah</div>
+                            <div class="sd-contact-line"><i class="far fa-envelope"></i> Email: bsu.tapah@uitm.edu.my</div>
+                            <div class="sd-contact-line"><i class="fas fa-phone"></i> Phone: 05-406 2300</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sd-section" id="sdAdditionalSection">
+                    <div class="sd-section-head">ADDITIONAL INFO:</div>
+                    <div class="sd-additional" id="sdAdditional">—</div>
+                </div>
+
+                <div class="sd-section sd-info-section">
+                    <div class="sd-name-h"><i class="fas fa-location-dot"></i> <span id="sdLocName">—</span></div>
+                    <div class="sd-info-row"><i class="fas fa-bookmark"></i> Category: <span id="sdCategory">—</span> &nbsp;·&nbsp; <i class="fas fa-users"></i> Max Capacity: <span id="sdCapacity">—</span> person</div>
+                    <div class="sd-info-row"><i class="fas fa-couch"></i> Facilities: <span id="sdFacilities">—</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─────────── RESERVATION STEP 1: form + payment summary + timetable ─────────── -->
+        <div id="reserveStep1View" class="view-wrapper" style="display:none;" role="region" aria-label="Reservation form">
+            <div class="rs-card">
+                <div class="rs-head">
+                    <h2 class="rs-title">Reserve <span id="rsSpaceName">—</span> space</h2>
+                    <button class="sd-back-btn" id="rsBackToDetail"><i class="fas fa-arrow-left"></i> Back</button>
+                </div>
+
+                <div class="rs-banner">
+                    <i class="fas fa-circle-info"></i>
+                    Pick your <strong>date</strong> and <strong>time</strong>. The total appears live in the Payment Summary panel.
+                </div>
+
+                <div class="rs-body">
+                    <div class="rs-form">
+                        <div class="rs-row">
+                            <div class="rs-field">
+                                <label>Start Date <span class="rs-req">*</span></label>
+                                <input type="date" id="rsStartDate" required />
+                            </div>
+                            <div class="rs-field">
+                                <label>End Date <span class="rs-req">*</span></label>
+                                <input type="date" id="rsEndDate" required />
+                            </div>
+                        </div>
+                        <div class="rs-row">
+                            <div class="rs-field">
+                                <label>Start Time <span class="rs-req">*</span></label>
+                                <select id="rsStartTime"><option value="">-- Start Time --</option></select>
+                            </div>
+                            <div class="rs-field">
+                                <label>End Time <span class="rs-req">*</span></label>
+                                <select id="rsEndTime"><option value="">-- End Time --</option></select>
+                            </div>
+                        </div>
+                        <div class="rs-row">
+                            <div class="rs-field rs-field-full">
+                                <label>Event <span class="rs-req">*</span></label>
+                                <textarea id="rsEvent" rows="2" placeholder="Describe the event purpose"></textarea>
+                            </div>
+                        </div>
+                        <div class="rs-row">
+                            <div class="rs-field">
+                                <label>Number of Participants <span class="rs-req">*</span></label>
+                                <input type="number" id="rsParticipants" min="1" placeholder="Max: 10" />
+                            </div>
+                            <div class="rs-field">
+                                <label>Reservation Title</label>
+                                <input type="text" id="rsTitle" placeholder="Auto-filled from event" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <aside class="rs-summary">
+                        <div class="rs-summary-head">PAYMENT SUMMARY</div>
+                        <div class="rs-summary-body" id="rsSummary">
+                            <div class="rs-summary-empty">Please select start and end date and time.</div>
+                        </div>
+                        <!-- Booking-clash alert: appears under the summary, blocks Continue -->
+                        <div class="rs-clash-alert" id="rsClashAlert" hidden></div>
+                    </aside>
+                </div>
+
+                <div class="rs-rules">
+                    <ul>
+                        <li>The space will be open for booking <strong id="rsWindowDays">180</strong> day(s) prior to the event.</li>
+                        <li>Maximum reservation is <strong id="rsMaxDays">5</strong> day(s) per reservation.</li>
+                        <li>Reservation request will be <strong>sent for approval</strong> from the space moderator.</li>
+                        <li>Minimum hour for booking is <strong id="rsMinHours">1</strong> hour(s) per date.</li>
+                    </ul>
+                </div>
+
+                <div class="rs-timetable">
+                    <div class="rs-tt-head">
+                        <strong>Weekly Availability</strong>
+                        <div class="rs-tt-nav">
+                            <button id="rsWeekPrev" type="button"><i class="fas fa-arrow-left"></i> Last Week</button>
+                            <button id="rsWeekThis" type="button">This Week</button>
+                            <button id="rsWeekNext" type="button">Next Week <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                    <div id="rsTimetable" class="rs-tt-grid">
+                        <div class="rs-tt-loading">Loading schedule…</div>
+                    </div>
+                    <div class="rs-tt-legend">
+                        <span><span class="rs-tt-leg rs-tt-leg-avail"></span> Available</span>
+                        <span><span class="rs-tt-leg rs-tt-leg-booked"></span> Booked</span>
+                        <span><span class="rs-tt-leg rs-tt-leg-pending"></span> Pending</span>
+                        <span><span class="rs-tt-leg rs-tt-leg-closed"></span> Closed</span>
+                    </div>
+                </div>
+
+                <label class="rs-terms">
+                    <input type="checkbox" id="rsAgreeTerms" />
+                    Yes, I agree with the <strong id="rsSpaceNameTerm">—</strong> space's terms and conditions.
+                    <a href="../assets/terms_conditions.pdf" id="rsReadTerms" target="_blank" rel="noopener">Read Terms & Conditions</a> now.
+                </label>
+
+                <div class="rs-cta">
+                    <button class="rs-cancel" id="rsCancel">CANCEL</button>
+                    <button class="rs-continue" id="rsContinue" type="button">CONTINUE <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─────────── RESERVATION STEP 2: confirmation summary ─────────── -->
+        <div id="reserveStep2View" class="view-wrapper" style="display:none;" role="region" aria-label="Booking confirmation">
+            <div class="rs-card">
+                <div class="rs-head">
+                    <h2 class="rs-title">Reserve <span id="rs2SpaceName">—</span> space</h2>
+                    <button class="sd-back-btn" id="rs2Back"><i class="fas fa-arrow-left"></i> Back</button>
+                </div>
+
+                <table class="rs2-table">
+                    <tbody>
+                        <tr><th>Booking Details</th>
+                            <td>Event Name: <strong id="rs2Event">—</strong>; Booking Date &amp; Time: <strong id="rs2DateTime">—</strong></td>
+                        </tr>
+                        <tr><th>Facilities Provided</th>
+                            <td id="rs2Facilities">—</td>
+                        </tr>
+                        <tr><th>Remark</th>
+                            <td id="rs2Remark">—</td>
+                        </tr>
+                        <tr><th>Participants</th>
+                            <td id="rs2Participants">—</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="rs2-equip">No equipment available for reservation.</div>
+
+                <div class="rs2-total">
+                    <span>TOTAL RESERVATION PRICE</span>
+                    <span class="rs2-colon">:</span>
+                    <span class="rs2-amount">RM <span id="rs2Amount">0.00</span></span>
+                </div>
+
+                <div class="rs-cta">
+                    <button class="rs-cancel" id="rs2BackBtn">BACK</button>
+                    <button class="rs-book-now" id="rs2BookNow">BOOK NOW <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─────────── RESERVATION STEP 3: order / payment ─────────── -->
+        <div id="reserveStep3View" class="view-wrapper" style="display:none;" role="region" aria-label="Payment order">
+            <div class="rs-card">
+                <div class="rs-head rs3-head">
+                    <h2 class="rs-title"><i class="fas fa-receipt"></i> Order</h2>
+                    <div class="rs3-date">Date: <span id="rs3Date">—</span></div>
+                </div>
+
+                <table class="rs3-order-table">
+                    <thead>
+                        <tr><th>#</th><th>Date</th><th>Item</th><th>Qty</th><th>Price</th><th>Total (RM)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1.</td>
+                            <td id="rs3OrderDate">—</td>
+                            <td id="rs3OrderItem">—</td>
+                            <td>1</td>
+                            <td><span id="rs3OrderPrice">0.00</span></td>
+                            <td><strong id="rs3OrderTotal">0.00</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="rs3-pay-grid">
+                    <div class="rs3-methods">
+                        <div class="rs3-pay-label">Payment Method</div>
+                        <div class="rs3-toyyib">
+                            <div class="rs3-toyyib-logo"><i class="fas fa-shield-halved"></i> ToyyibPay</div>
+                            <p>You'll be redirected to ToyyibPay's secure gateway to pay via
+                               <strong>FPX online banking</strong> or <strong>credit / debit card</strong>.
+                               Your reference number is issued the moment payment clears.</p>
+                            <div class="rs3-toyyib-badges"><span>FPX</span><span>Visa</span><span>Mastercard</span></div>
+                        </div>
+                    </div>
+                    <div class="rs3-totals">
+                        <div class="rs3-tot-row"><span>Sub Total</span><span class="rs3-tot-col">:</span><span class="rs3-tot-val">RM <span id="rs3SubTotal">0.00</span></span></div>
+                        <div class="rs3-tot-row rs3-grand"><span>TOTAL</span><span class="rs3-tot-col">:</span><span class="rs3-tot-val">RM <span id="rs3GrandTotal">0.00</span></span></div>
+                    </div>
+                </div>
+
+                <div class="rs-cta">
+                    <button class="rs-cancel" id="rs3Cancel"><i class="fas fa-ban"></i> CANCEL</button>
+                    <button class="rs-confirm" id="rs3Confirm"><i class="fas fa-lock"></i> CONFIRM &amp; PAY <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- DASHBOARD VIEW -->
+        <div id="dashboardView" class="view-wrapper" role="region" aria-label="Student dashboard">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-left">
+                        <div class="icon-circle space-icon" aria-hidden="true"><i class="fas fa-building"></i></div>
+                        <div>
+                            <div class="stat-number" id="spaceCount" aria-live="polite">—</div>
+                            <div class="stat-label" data-i18n="student.total_spaces">Total Spaces</div>
+                            <div class="stat-sub" id="spaceSub" data-i18n="student.spaces_active">currently active</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-left">
+                        <div class="icon-circle booked-icon" aria-hidden="true"><i class="fas fa-calendar-check"></i></div>
+                        <div>
+                            <div class="stat-number" id="activeBookings" aria-live="polite">—</div>
+                            <div class="stat-label" data-i18n="student.active_bookings">My Active Bookings</div>
+                            <div class="stat-sub" id="activeSub">— participants total</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-left">
+                        <div class="icon-circle pending-icon" aria-hidden="true"><i class="fas fa-clock"></i></div>
+                        <div>
+                            <div class="stat-number" id="pendingCount" aria-live="polite">—</div>
+                            <div class="stat-label" data-i18n="student.pending_approvals">Pending Approvals</div>
+                            <div class="stat-sub" id="pendingSub">— upcoming this week</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-left">
+                        <div class="icon-circle booked-icon" aria-hidden="true"><i class="fas fa-hourglass-end"></i></div>
+                        <div>
+                            <div class="stat-number" id="hoursScheduled" aria-live="polite">—</div>
+                            <div class="stat-label" data-i18n="student.hours_scheduled">Hours Scheduled</div>
+                            <div class="stat-sub">approved + in progress</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CALENDAR CARD -->
+            <div class="calendar-card">
+                <div class="calendar-header">
+                    <div class="cal-title"><h2 data-i18n="cal.my_calendar">📅 My Calendar</h2></div>
+                    <div class="calendar-controls">
+                        <button class="ctrl-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+                        <span id="monthYearDisplay" style="font-weight:600;min-width:130px;">—</span>
+                        <button class="ctrl-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                        <button class="ctrl-btn" id="todayBtn" data-i18n="cal.today">Today</button>
+                    </div>
+                </div>
+                <div class="legend-filters">
+                    <div class="status-legend">
+                        <div class="legend-item"><span class="glowing-dot dot-green"></span> <span data-i18n="cal.approved">Approved</span></div>
+                        <div class="legend-item"><span class="glowing-dot dot-amber"></span> <span data-i18n="cal.in_progress">In Progress</span></div>
+                        <div class="legend-item"><span class="glowing-dot dot-blue"></span> <span data-i18n="cal.pending">Pending</span></div>
+                    </div>
+                </div>
+                <div id="calendarDynamic"></div>
+            </div>
+        </div>
+
+        <!-- SPACE BOOKING LIST VIEW -->
+        <div id="spaceBookingListView" class="view-wrapper" style="display:none;">
+            <div class="space-table-card">
+                <div class="view-title" data-i18n="view.booking_list_title">📋 My Bookings</div>
+                <div class="table-controls-row">
+                    <div class="entries-control"><span data-i18n="tbl.show">Show</span><select id="entriesSelect"><option value="5">5</option><option value="10" selected>10</option><option value="25">25</option></select><span data-i18n="tbl.entries">entries</span></div>
+                    <div class="table-actions">
+                        <div class="search-box"><i class="fas fa-search"></i><input type="text" id="tableSearch" placeholder="Search my bookings..."/></div>
+                        <button class="btn-add" id="btnAddBookingTop"><i class="fas fa-plus"></i> Add</button>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="space-table" id="spaceBookingTable">
+                        <thead><tr><th>No</th><th>Action</th><th>Applicant Name</th><th>Event</th><th>Space Category</th><th>Space Name</th><th>Start Date</th><th>End Date</th><th>Applied Date</th><th>Status</th></tr></thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+                <div class="table-footer"><div class="showing-info" id="showingInfo"></div><div class="pagination" id="paginationControls"></div></div>
+            </div>
+        </div>
+
+        <!-- CALENDAR VIEW WITH SCHEDULE MODULE -->
+        <div id="calendarViewPage" class="view-wrapper" style="display:none;">
+            <div class="calendar-card" style="margin-bottom:24px;">
+                <div class="calendar-header">
+                    <div class="cal-title"><h2>📅 Calendar</h2></div>
+                    <div class="calendar-controls">
+                        <button class="ctrl-btn" id="calPrevBtn2"><i class="fas fa-chevron-left"></i></button>
+                        <span id="calMonthYear2" style="font-weight:600;min-width:130px;">—</span>
+                        <button class="ctrl-btn" id="calNextBtn2"><i class="fas fa-chevron-right"></i></button>
+                        <button class="ctrl-btn" id="calTodayBtn2">Today</button>
+                    </div>
+                </div>
+                <div id="calendarGrid2"></div>
+            </div>
+
+            <div class="view-content" style="margin-top:0;">
+                <div class="schedule-filter-panel">
+                    <div class="filter-group">
+                        <label>Department</label>
+                        <select id="deptSelect"><option>UITM KAMPUS TAPAH</option></select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Space Category</label>
+                        <select id="catSelect"><option value="">-- Loading… --</option></select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Space Name</label>
+                        <select id="spaceNameSelect"><option value="">-- Select Category First --</option></select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Start Date</label>
+                        <input type="date" id="startDate"/>
+                    </div>
+                    <div class="filter-group">
+                        <label>End Date</label>
+                        <input type="date" id="endDate"/>
+                    </div>
+                    <button class="btn-schedule" id="searchScheduleBtn"><i class="fas fa-search"></i> SEARCH</button>
+                    <button class="btn-pdf" id="pdfScheduleBtn"><i class="fas fa-print"></i> PRINT</button>
+                </div>
+
+                <div class="schedule-results" id="scheduleResultsContainer">
+                    <table>
+                        <thead><tr>
+                            <th>SPACE CODE</th>
+                            <th>SPACE DESCRIPTION</th>
+                            <th style="text-align:center;">AVAILABILITY</th>
+                            <th>LIST OF RESERVATION</th>
+                        </tr></thead>
+                        <tbody id="scheduleResultBody">
+                            <tr class="empty-row"><td colspan="4">Fill in the filters above and click SEARCH to check space availability.</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="table-footer"><div class="showing-info" id="scheduleShowingInfo">Showing 0 to 0 of 0 entries</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODERATOR LIST VIEW -->
+        <div id="moderatorListView" class="view-wrapper" style="display:none;">
+            <div class="view-content">
+                <div class="view-title" data-i18n="view.moderator_list_title">👥 Moderator List</div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;">
+                    <div style="background:#F9FAFB;border-radius:16px;padding:18px;display:flex;align-items:center;gap:16px;"><div style="width:50px;height:50px;border-radius:50%;background:#7C3AED;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;">NB</div><div><strong>NURSYALIN BINTI MOHAMED BAKRI</strong><br/><small>054067048</small></div></div>
+                    <div style="background:#F9FAFB;border-radius:16px;padding:18px;display:flex;align-items:center;gap:16px;"><div style="width:50px;height:50px;border-radius:50%;background:#3B82F6;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;">MF</div><div><strong>MIOR MUHAMMAD FAIZ BIN RAIYANI</strong><br/><small>054067049</small></div></div>
+                </div>
+            </div>
+        </div>
+
+        <footer>© RBS Student Portal — Real‑time resource overview</footer>
+    </main>
+</div>
+
+<!-- BOOKING RECEIPT MODAL -->
+<div class="modal-overlay" id="receiptModal" style="display:none;">
+    <div class="modal-content receipt-modal" id="receiptModalContent">
+        <div class="receipt-header no-print">
+            <h2>📋 Booking Receipt</h2>
+            <button class="modal-close" id="closeReceiptBtn" aria-label="Close">&times;</button>
+        </div>
+        <div class="receipt-body" id="receiptBody">
+            <div class="receipt-brand">
+                <div class="receipt-brand-icon">B</div>
+                <div>
+                    <div class="receipt-brand-title">UiTM Tapah</div>
+                    <div class="receipt-brand-sub">Booking Confirmation Receipt</div>
+                </div>
+            </div>
+            <div class="receipt-status">
+                <div class="receipt-ref">Reference: <span id="rcptRef">—</span></div>
+                <div class="receipt-status-badge pending" id="rcptStatus">PENDING REVIEW</div>
+            </div>
+            <hr/>
+            <div class="receipt-section">
+                <h4>Applicant Details</h4>
+                <div class="receipt-grid">
+                    <div><label>Name</label><span id="rcptApplicant">—</span></div>
+                    <div><label>Student No.</label><span id="rcptStudentNo">—</span></div>
+                    <div><label>Email</label><span id="rcptEmail">—</span></div>
+                    <div><label>Phone</label><span id="rcptPhone">—</span></div>
+                </div>
+            </div>
+            <div class="receipt-section">
+                <h4>Reservation Details</h4>
+                <div class="receipt-grid">
+                    <div><label>Reservation Title</label><span id="rcptTitle">—</span></div>
+                    <div><label>Event Name</label><span id="rcptEvent">—</span></div>
+                    <div><label>Participants</label><span id="rcptParticipants">—</span></div>
+                    <div><label>Applied Date</label><span id="rcptApplied">—</span></div>
+                </div>
+            </div>
+            <div class="receipt-section">
+                <h4>Space & Schedule</h4>
+                <div class="receipt-grid">
+                    <div><label>Space Code</label><span id="rcptSpaceCode">—</span></div>
+                    <div><label>Space Name</label><span id="rcptSpaceName">—</span></div>
+                    <div><label>Category</label><span id="rcptCategory">—</span></div>
+                    <div><label>Capacity</label><span id="rcptCapacity">—</span></div>
+                    <div><label>Start</label><span id="rcptStart">—</span></div>
+                    <div><label>End</label><span id="rcptEnd">—</span></div>
+                </div>
+            </div>
+            <div class="receipt-section" id="rcptPaymentSection" style="display:none;">
+                <h4>💳 Payment Details</h4>
+                <div class="receipt-grid">
+                    <div><label>Reference No.</label><span id="rcptPayRef">—</span></div>
+                    <div><label>Method</label><span id="rcptPayMethod">—</span></div>
+                    <div><label>Amount Paid</label><span id="rcptPayAmount" style="color:#5F259F;font-weight:700;">—</span></div>
+                    <div><label>Paid At</label><span id="rcptPaidAt">—</span></div>
+                </div>
+            </div>
+            <div class="receipt-footer">
+                <p><strong>⚠️ Status:</strong> Your booking is pending review by the moderator/admin. You will receive an email and in-app notification once it is approved or rejected.</p>
+                <p class="receipt-meta">Generated: <span id="rcptGenerated">—</span> · RBS System v2.0</p>
+            </div>
+        </div>
+        <div class="receipt-actions no-print">
+            <button class="btn-print" id="btnPrintReceipt"><i class="fas fa-print"></i> Print / Save PDF</button>
+            <button class="btn-print" id="btnEmailReceipt"><i class="fas fa-envelope"></i> Email Receipt</button>
+            <button class="btn-close-receipt" id="btnCloseReceipt">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- SCHEDULE PDF MODAL -->
+<div class="modal-overlay" id="scheduleModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>📋 SCHEDULE</h2>
+            <button class="modal-close" id="closeModalBtn">&times;</button>
+        </div>
+        <div id="modalContentBody"></div>
+    </div>
+</div>
+
+<!-- TOAST CONTAINER (injected by JS but kept here for CSS targeting) -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="../js/i18n.js"></script>
+<script src="../js/user_dashboard_script.js"></script>
+<script src="../js/browse_spaces.js"></script>
+<script src="../js/space_detail.js"></script>
+<script src="../js/reservation_flow.js"></script>
+<script>
+    document.getElementById('langToggleBtn')?.addEventListener('click', () => window.i18n.toggle());
+    // Re-translate after any dynamic content changes (tables, calendar etc.)
+    window.addEventListener('i18n:changed', () => {
+        if (typeof renderDashCal === 'function') try { renderDashCal(); } catch(e) {}
+        if (typeof renderCal2 === 'function') try { renderCal2(); } catch(e) {}
+        if (typeof renderTable === 'function') try { renderTable(); } catch(e) {}
+        // Re-apply translations to any newly-created elements
+        if (window.i18n) setTimeout(() => window.i18n.applyAll(), 50);
+    });
+</script>
+</body>
+</html>

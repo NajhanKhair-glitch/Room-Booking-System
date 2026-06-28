@@ -1,0 +1,41 @@
+/* =====================================================
+   php/setup.php - styles for the one-time setup page
+   ===================================================== */
+
+body {
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    max-width: 760px;
+    margin: 40px auto;
+    padding: 0 20px;
+    color: #111;
+}
+
+h1 {
+    color: #7C3AED;
+    margin-bottom: 8px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 12px;
+}
+
+th, td {
+    padding: 8px 12px;
+    border: 1px solid #E5E7EB;
+    text-align: left;
+}
+
+th { background: #F3F4F6; }
+
+.ok  { color: #10B981; font-weight: 600; }
+.bad { color: #EF4444; font-weight: 600; }
+
+.note {
+    background: #FEF3C7;
+    border-left: 4px solid #F59E0B;
+    padding: 12px;
+    margin: 16px 0;
+    border-radius: 6px;
+}

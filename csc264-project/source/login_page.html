@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="UiTM Tapah Booking System - Premium Facility Management Platform">
+    <title>UiTM Tapah Booking System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/login_styles.css">
+    <link rel="stylesheet" href="../css/bsu_theme.css">
+</head>
+<body>
+    <!-- Plexus Background -->
+    <div class="plexus-container" aria-hidden="true">
+        <canvas id="plexus-canvas"></canvas>
+    </div>
+
+    <!-- Main Content -->
+    <main class="content-wrapper" role="main">
+        <!-- Header & Branding -->
+        <header class="header-section">
+            <div class="logo-container">
+                <div class="logo-placeholder">
+                    <img src="../assets/rbs_logo.png" alt="RBS UiTM Tapah logo">
+                </div>
+            </div>
+            <div class="branding-text">
+                <h1 class="brand-title" data-i18n="login.title">Room Booking System</h1>
+                <p class="brand-subtitle" data-i18n="login.subtitle">University</p>
+            </div>
+            <button class="lang-toggle-btn" id="langToggleBtn" type="button" title="Change language">
+                <i class="fas fa-globe" aria-hidden="true"></i>
+                <span class="lang-label">BM</span>
+            </button>
+        </header>
+
+
+        <!-- Login Card -->
+        <div class="main-container">
+            <section class="login-card" aria-label="Sign in">
+                <!-- Tabs -->
+                <div class="tabs-container" role="tablist" aria-label="Account type">
+                    <button class="tab active" data-tab="uitm" role="tab" aria-selected="true" aria-controls="uitm-content">
+                        <i class="fas fa-sign-in-alt" style="margin-right: 6px;" aria-hidden="true"></i><span data-i18n="login.tab_signin">Sign In</span>
+                    </button>
+                    <button class="tab" data-tab="signup" role="tab" aria-selected="false" aria-controls="signup-content">
+                        <i class="fas fa-user-plus" style="margin-right: 6px;" aria-hidden="true"></i><span data-i18n="login.tab_signup">Sign Up</span>
+                    </button>
+                </div>
+
+                <!-- UiTM Tab — real login form -->
+                <div class="tab-content active" id="uitm-content" role="tabpanel" aria-labelledby="uitm">
+                    <div class="content-title" data-i18n="login.welcome">Welcome Back</div>
+                    <p class="content-description" data-i18n="login.description">Sign in with your UiTM credentials to access the booking system.</p>
+
+                    <form id="loginForm" autocomplete="on" aria-label="Sign in form">
+                        <div class="field-group">
+                            <label for="loginEmail" data-i18n="common.email">Email</label>
+                            <input id="loginEmail" type="email" name="email" data-i18n-placeholder="login.email_placeholder" placeholder="you@uitm.edu.my" required autofocus autocomplete="email" aria-required="true"/>
+                        </div>
+                        <div class="field-group" style="margin-top:10px;">
+                            <label for="loginPassword" data-i18n="common.password">Password</label>
+                            <input id="loginPassword" type="password" name="password" data-i18n-placeholder="login.password_placeholder" placeholder="Your password" required autocomplete="current-password" aria-required="true"/>
+                        </div>
+                        <div id="loginError" class="login-error" style="margin-top:10px;" role="alert" aria-live="polite"></div>
+                        <div class="login-buttons-group">
+                            <button id="btnLogin" type="submit" class="login-btn">
+                                <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
+                                <span class="login-btn-text" data-i18n="common.signin">Sign In</span>
+                            </button>
+                        </div>
+                        <div class="forgot-row">
+                            <a href="forgot_password.html" class="forgot-link" data-i18n="login.forgot">Forgot password?</a>
+                        </div>
+                    </form>
+
+                    <div class="sso-divider-line"><span data-i18n="login.or">OR</span></div>
+
+                    <a href="sso_login_page.html" class="sso-login-btn" id="btnSsoLogin">
+                        <i class="fas fa-university" aria-hidden="true"></i>
+                        <span data-i18n="login.sso_button">Login with UiTM Portal (SSO)</span>
+                    </a>
+
+                    <div class="demo-creds" role="note">
+                        <strong>Demo accounts (after running php/setup.php):</strong><br>
+                        Student: <code>2024220654@student.uitm.edu.my</code> / <code>Student@123</code><br>
+                        Moderator: <code>nursyalin@uitm.edu.my</code> / <code>Mod@123</code><br>
+                        Admin: <code>admin@bsu.uitm.edu.my</code> / <code>Admin@123</code>
+                    </div>
+                </div>
+
+                <!-- Sign-up Tab -->
+                <div class="tab-content" id="signup-content" role="tabpanel" aria-labelledby="signup">
+                    <div class="content-title" data-i18n="login.signup_title">Create Account</div>
+                    <p class="content-description" data-i18n="login.signup_desc">Join UiTM Tapah Booking System as a student.</p>
+
+                    <form id="signupForm" autocomplete="on" aria-label="Sign up form">
+                        <div class="field-group">
+                            <label for="signupFullName" data-i18n="common.fullname">Full Name *</label>
+                            <input id="signupFullName" type="text" name="full_name" placeholder="Your full name" required autofocus aria-required="true"/>
+                        </div>
+                        <div class="field-group" style="margin-top:10px;">
+                            <label for="signupStudentNo" data-i18n="login.student_no">Student Number *</label>
+                            <input id="signupStudentNo" type="text" name="student_no" placeholder="e.g., 2024220654" required aria-required="true"/>
+                        </div>
+                        <div class="field-group" style="margin-top:10px;">
+                            <label for="signupEmail" data-i18n="common.email">Email *</label>
+                            <input id="signupEmail" type="email" name="email" placeholder="you@student.uitm.edu.my" required aria-required="true"/>
+                        </div>
+                        <div class="field-group" style="margin-top:10px;">
+                            <label for="signupPhone" data-i18n="common.phone">Phone Number</label>
+                            <input id="signupPhone" type="tel" name="phone" placeholder="Your phone number"/>
+                        </div>
+                        <div class="field-group" style="margin-top:10px;">
+                            <label for="signupFaculty">Faculty / Department</label>
+                            <input id="signupFaculty" type="text" name="faculty" placeholder="e.g., KOLEJ PENGAJIAN PENGKOMPUTERAN, INFORMATIK DAN MATEMATIK"/>
+                        </div>
+                        <div class="field-group" style="margin-top:10px;">
+                            <label for="signupProgram">Program</label>
+                            <input id="signupProgram" type="text" name="program" placeholder="e.g., DIPLOMA SAINS KOMPUTER"/>
+                        </div>
+                        <div class="field-group" style="margin-top:10px;">
+                            <label for="signupCampus">Campus</label>
+                            <input id="signupCampus" type="text" name="campus" value="UITM Kampus Tapah"/>
+                        </div>
+                        <div class="field-group" style="margin-top:10px;">
+                            <label for="signupPassword" data-i18n="common.password">Password *</label>
+                            <input id="signupPassword" type="password" name="password" placeholder="Min 6 characters" required aria-required="true"/>
+                        </div>
+                        <div class="field-group" style="margin-top:10px;">
+                            <label for="signupConfirmPassword" data-i18n="login.confirm_password">Confirm Password *</label>
+                            <input id="signupConfirmPassword" type="password" name="confirm_password" placeholder="Confirm your password" required aria-required="true"/>
+                        </div>
+                        <div id="signupError" class="login-error" style="margin-top:10px;" role="alert" aria-live="polite"></div>
+                        <div class="login-buttons-group">
+                            <button id="btnSignup" type="submit" class="login-btn">
+                                <i class="fas fa-user-plus" aria-hidden="true"></i>
+                                <span class="login-btn-text" data-i18n="login.create_account">Create Account</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Info Cards -->
+            <aside style="display: flex; flex-direction: column; gap: 20px;" aria-label="System highlights">
+                <div class="info-card">
+                    <div class="info-icon" aria-hidden="true"><i class="fas fa-clock"></i></div>
+                    <div class="info-label">24/7 Availability</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon" aria-hidden="true"><i class="fas fa-shield-alt"></i></div>
+                    <div class="info-label">Secure &amp; Encrypted</div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <p class="footer-text">2026 © Jabatan Digital | UiTM Tapah Campus</p>
+    </footer>
+
+    <script src="../js/i18n.js"></script>
+    <script src="../js/login_script.js"></script>
+    <script>
+        document.getElementById('langToggleBtn')?.addEventListener('click', () => window.i18n.toggle());
+    </script>
+</body>
+</html>

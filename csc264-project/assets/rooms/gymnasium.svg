@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 248" role="img" aria-label="Gymnasium">
+  <defs>
+    <linearGradient id="gymBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E6F5EF"/><stop offset="1" stop-color="#D4ECE2"/>
+    </linearGradient>
+  </defs>
+  <rect width="440" height="248" fill="url(#gymBg)"/>
+  <rect x="34" y="46" width="372" height="156" rx="12" fill="#F4FBF8" stroke="#CBE5DA" stroke-width="2"/>
+  <!-- mirror panel -->
+  <rect x="52" y="64" width="120" height="64" rx="6" fill="#CFE9F2" stroke="#A9D2E0" stroke-width="2"/>
+  <line x1="64" y1="74" x2="96" y2="74" stroke="#FFFFFF" stroke-width="4" opacity="0.8"/>
+  <!-- weight plate KG -->
+  <circle cx="244" cy="92" r="26" fill="#5FBF8F"/>
+  <circle cx="244" cy="92" r="9" fill="#E6F5EF"/>
+  <text x="244" y="138" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#3C8765">KG</text>
+  <!-- lockers -->
+  <g>
+    <rect x="306" y="60" width="22" height="96" rx="4" fill="#3F7D67"/>
+    <rect x="330" y="60" width="22" height="96" rx="4" fill="#479079"/>
+    <rect x="354" y="60" width="22" height="96" rx="4" fill="#3F7D67"/>
+    <rect x="378" y="60" width="22" height="96" rx="4" fill="#479079"/>
+    <circle cx="324" cy="108" r="2.5" fill="#CFE9DF"/><circle cx="348" cy="108" r="2.5" fill="#CFE9DF"/>
+    <circle cx="372" cy="108" r="2.5" fill="#CFE9DF"/><circle cx="396" cy="108" r="2.5" fill="#CFE9DF"/>
+  </g>
+  <!-- dumbbell -->
+  <g fill="#4A5169">
+    <rect x="60" y="168" width="14" height="22" rx="3"/><rect x="120" y="168" width="14" height="22" rx="3"/>
+    <rect x="74" y="175" width="46" height="8" rx="4"/>
+  </g>
+  <!-- bench -->
+  <g fill="#4A5169">
+    <rect x="170" y="172" width="120" height="12" rx="5"/>
+    <rect x="178" y="184" width="10" height="14" rx="2"/><rect x="272" y="184" width="10" height="14" rx="2"/>
+  </g>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 248" role="img" aria-label="Lecture room">
+  <defs>
+    <linearGradient id="lecBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EEF2FC"/><stop offset="1" stop-color="#E2E8F7"/>
+    </linearGradient>
+    <linearGradient id="lecCone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9DB6E8" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#9DB6E8" stop-opacity="0.05"/>
+    </linearGradient>
+    <g id="lecDesk">
+      <rect x="16" y="2" width="30" height="13" rx="6" fill="#6B7790"/>
+      <rect x="6" y="13" width="50" height="17" rx="6" fill="#F2DCA9"/>
+      <rect x="6" y="27" width="50" height="5" rx="2.5" fill="#E3C485"/>
+      <rect x="20" y="32" width="6" height="8" rx="2" fill="#CBb079" fill-opacity="1"/>
+      <rect x="36" y="32" width="6" height="8" rx="2" fill="#CBB079"/>
+    </g>
+  </defs>
+  <rect width="440" height="248" fill="url(#lecBg)"/>
+  <!-- projector + light cone -->
+  <rect x="206" y="22" width="28" height="11" rx="4" fill="#6B7C99"/>
+  <polygon points="220,33 160,118 280,118" fill="url(#lecCone)"/>
+  <!-- whiteboard / screen -->
+  <rect x="150" y="44" width="200" height="74" rx="10" fill="#FFFFFF" stroke="#CBD6EC" stroke-width="2"/>
+  <rect x="162" y="56" width="120" height="8" rx="4" fill="#DBE3F2"/>
+  <rect x="162" y="72" width="150" height="6" rx="3" fill="#E7ECF7"/>
+  <rect x="162" y="86" width="96" height="6" rx="3" fill="#E7ECF7"/>
+  <!-- teacher + lectern -->
+  <circle cx="70" cy="74" r="13" fill="#8C97AD"/>
+  <path d="M52 116 q18 -26 36 0 z" fill="#AEB7C9"/>
+  <rect x="92" y="92" width="26" height="30" rx="4" fill="#E9EDF6" stroke="#CBD6EC" stroke-width="1.5"/>
+  <!-- desks: 5 columns x 3 rows -->
+  <g>
+    <use href="#lecDesk" x="14"  y="132"/><use href="#lecDesk" x="92"  y="132"/><use href="#lecDesk" x="170" y="132"/><use href="#lecDesk" x="248" y="132"/><use href="#lecDesk" x="326" y="132"/>
+    <use href="#lecDesk" x="14"  y="170"/><use href="#lecDesk" x="92"  y="170"/><use href="#lecDesk" x="170" y="170"/><use href="#lecDesk" x="248" y="170"/><use href="#lecDesk" x="326" y="170"/>
+    <use href="#lecDesk" x="14"  y="208"/><use href="#lecDesk" x="92"  y="208"/><use href="#lecDesk" x="170" y="208"/><use href="#lecDesk" x="248" y="208"/><use href="#lecDesk" x="326" y="208"/>
+  </g>
+</svg>

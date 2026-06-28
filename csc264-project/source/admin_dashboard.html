@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>RBS Admin Dashboard | Space Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="../css/admin_dashboard_styles.css" />
+    <link rel="stylesheet" href="../css/bsu_theme.css" />
+    <!-- Chart.js for analytics visualisations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" aria-label="Main navigation">
+            <div class="sidebar-logo" id="sidebarLogo" role="button" tabindex="0" title="Back to dashboard home" style="cursor:pointer;">
+                <div class="logo-icon rbs-brand-icon" aria-hidden="true"><img src="../assets/rbs_logo.png" alt="RBS UiTM Tapah logo" /></div>
+                <div>
+                    <div class="logo-text">RBS | UiTM</div>
+                    <div class="logo-sub">admin panel</div>
+                </div>
+            </div>
+            <div class="role-pill" role="status" id="rolePill">
+                <i class="fas fa-shield-halved" aria-hidden="true"></i> <span id="roleText">Loading…</span>
+            </div>
+            <nav class="nav-menu" role="navigation" aria-label="Admin sections">
+                <div class="nav-item" data-view="adminDashboard" role="link" tabindex="0" aria-label="My Dashboard">
+                    <i class="fas fa-chart-pie" aria-hidden="true"></i> <span data-i18n="nav.my_dashboard">My Dashboard</span>
+                </div>
+                <div class="nav-item has-submenu active" id="navSpaceParent" role="button" tabindex="0" aria-expanded="true" aria-controls="spaceSubmenu">
+                    <i class="fas fa-door-open" aria-hidden="true"></i> <span data-i18n="nav.space_management">Space Management</span>
+                    <i class="fas fa-chevron-right chevron-drop" aria-hidden="true"></i>
+                </div>
+                <div class="submenu show" id="spaceSubmenu" role="group" aria-label="Space management options">
+                    <div class="nav-item active" data-view="bookingRequests" role="link" tabindex="0">
+                        <i class="fas fa-hourglass-half" aria-hidden="true"></i> <span data-i18n="nav.booking_requests">Booking Requests</span>
+                    </div>
+                    <div class="nav-item" data-view="allBookings" role="link" tabindex="0">
+                        <i class="fas fa-list-check" aria-hidden="true"></i> <span data-i18n="nav.all_bookings">All Bookings</span>
+                    </div>
+                    <div class="nav-item" data-view="spaceList" role="link" tabindex="0">
+                        <i class="fas fa-building" aria-hidden="true"></i> <span data-i18n="nav.space_list">Space List</span>
+                    </div>
+                    <div class="nav-item" data-view="adminCalendar" role="link" tabindex="0">
+                        <i class="fas fa-calendar-alt" aria-hidden="true"></i> <span data-i18n="nav.calendar">Calendar</span>
+                    </div>
+                </div>
+                <div class="nav-item" data-view="reports" role="link" tabindex="0" aria-label="Reports and analytics" id="navReports">
+                    <i class="fas fa-chart-line" aria-hidden="true"></i> <span data-i18n="nav.reports">Reports</span>
+                </div>
+                <div class="nav-item" data-view="activityLog" role="link" tabindex="0" aria-label="Activity log" id="navActivityLog">
+                    <i class="fas fa-clipboard-list" aria-hidden="true"></i> <span data-i18n="nav.activity_log">Activity Log</span>
+                </div>
+                <div class="nav-item" data-view="userManagement" role="link" tabindex="0" id="navUserManagement">
+                    <i class="fas fa-users" aria-hidden="true"></i> <span data-i18n="nav.user_management">User Management</span>
+                </div>
+                <a class="nav-item" href="user_dashboard.html?book=1" style="text-decoration:none;">
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i> <span>Book a Room</span>
+                    <span style="margin-left:auto;background:#16a34a;color:#fff;font-size:0.6rem;font-weight:700;padding:2px 7px;border-radius:99px;">FREE</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="nav-item" onclick="handleLogout()" style="cursor:pointer;" role="button" tabindex="0" aria-label="Logout">
+                    <i class="fas fa-sign-out-alt" aria-hidden="true"></i> <span>Logout</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content" role="main">
+            <div class="top-header">
+                <nav class="breadcrumb" id="topBreadcrumb" aria-label="Breadcrumb">
+                    <span>Home</span> <i class="fas fa-chevron-right" aria-hidden="true"></i> <span class="active-crumb">Booking Requests</span>
+                </nav>
+                <div class="header-right">
+                    <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle dark/light mode" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon" id="themeIcon" aria-hidden="true"></i>
+                    </button>
+                    <button class="theme-toggle-btn" id="langToggleBtn" title="Change language" aria-label="Change language" style="width:auto;padding:0 10px;gap:5px;">
+                        <i class="fas fa-globe" aria-hidden="true"></i>
+                        <span class="lang-label" style="font-size:0.78rem;font-weight:700;">BM</span>
+                    </button>
+                    <button class="notification-bell" id="notificationBell" title="Notifications" aria-label="Notifications" type="button">
+                        <i class="fas fa-bell" aria-hidden="true"></i>
+                        <span class="bell-dot" id="bellDot" aria-hidden="true" style="display:none;"></span>
+                    </button>
+                    <!-- Notifications dropdown -->
+                    <div class="notif-dropdown" id="notifDropdown">
+                        <div class="notif-header">
+                            <strong>Notifications</strong>
+                            <button class="notif-mark-all" id="markAllReadBtn" type="button">Mark all read</button>
+                        </div>
+                        <div class="notif-list" id="notifList">
+                            <div class="notif-empty">Loading…</div>
+                        </div>
+                    </div>
+                    <div class="user-profile" id="userProfileBtn" role="button" tabindex="0" aria-haspopup="menu" aria-expanded="false">
+                        <div class="avatar" aria-hidden="true">·</div>
+                        <span class="user-name">Loading…</span>
+                        <i class="fas fa-chevron-down" style="font-size:0.6rem;color:var(--text-muted);" aria-hidden="true"></i>
+                    </div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div style="padding:14px 16px;border-bottom:1px solid var(--border-light);">
+                            <div style="font-weight:700;font-size:0.85rem;color:var(--text);" class="dropdown-user-name">Loading…</div>
+                            <div style="font-size:0.7rem;color:var(--text-muted);" class="dropdown-user-email">loading…</div>
+                        </div>
+                        <div class="theme-row">
+                            <span><i class="fas fa-moon" style="margin-right:6px;"></i> <span data-i18n="common.darkmode">Dark Mode</span></span>
+                            <div class="toggle-switch" id="themeSwitch"></div>
+                        </div>
+                        <div class="user-dropdown-divider"></div>
+                        <button class="user-dropdown-item logout-item" onclick="handleLogout()">
+                            <i class="fas fa-sign-out-alt"></i> <span data-i18n="common.logout">Logout</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN DASHBOARD -->
+            <div id="adminDashboardView" class="view-wrapper" style="display:none;" role="region" aria-label="Admin dashboard overview">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-left">
+                            <div class="icon-circle pending-icon" aria-hidden="true"><i class="fas fa-clock"></i></div>
+                            <div>
+                                <div class="stat-number" id="pendingCount" aria-live="polite">—</div>
+                                <div class="stat-label">Pending Requests</div>
+                                <div class="stat-sub" id="pendingSub">awaiting review</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-left">
+                            <div class="icon-circle approved-icon" aria-hidden="true"><i class="fas fa-check-circle"></i></div>
+                            <div>
+                                <div class="stat-number" id="approvedCount" aria-live="polite">—</div>
+                                <div class="stat-label">Approved Bookings</div>
+                                <div class="stat-sub" id="approvedSub">all-time</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-left">
+                            <div class="icon-circle space-icon" aria-hidden="true"><i class="fas fa-building"></i></div>
+                            <div>
+                                <div class="stat-number" id="totalSpacesCount" aria-live="polite">—</div>
+                                <div class="stat-label">Active Spaces</div>
+                                <div class="stat-sub" id="spacesSub">currently bookable</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-left">
+                            <div class="icon-circle booked-icon" aria-hidden="true"><i class="fas fa-hourglass-end"></i></div>
+                            <div>
+                                <div class="stat-number" id="hoursScheduled7d" aria-live="polite">—</div>
+                                <div class="stat-label">Hours Scheduled (7d)</div>
+                                <div class="stat-sub" id="participantsSub">— participants active</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="calendar-card">
+                    <div class="calendar-header">
+                        <div class="cal-title"><h2>📅 Upcoming Reservations</h2></div>
+                        <div class="calendar-controls">
+                            <button class="ctrl-btn" id="dashPrevBtn"><i class="fas fa-chevron-left"></i></button>
+                            <span id="dashMonthYear" style="font-weight:600;min-width:120px;text-align:center;color:var(--text);">May 2026</span>
+                            <button class="ctrl-btn" id="dashNextBtn"><i class="fas fa-chevron-right"></i></button>
+                            <button class="ctrl-btn" id="dashTodayBtn">Today</button>
+                        </div>
+                    </div>
+                    <div id="dashCalendarGrid"></div>
+                </div>
+            </div>
+
+            <!-- BOOKING REQUESTS -->
+            <div id="bookingRequestsView" class="view-wrapper">
+                <div class="table-card">
+                    <div class="view-title">⏳ Booking Requests</div>
+                    <div class="table-controls-row">
+                        <div class="entries-control"><span>Show</span><select id="reqEntries"><option>10</option><option>25</option></select><span>entries</span></div>
+                        <div class="search-box"><i class="fas fa-search"></i><input type="text" id="reqSearchInput" placeholder="Search requests..."/></div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead><tr><th>No</th><th>Applicant</th><th>Event</th><th>Space</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+                            <tbody id="reqTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="table-footer"><div class="showing-info" id="reqShowingInfo"></div><div class="pagination" id="reqPagination"></div></div>
+                </div>
+            </div>
+
+            <!-- ALL BOOKINGS -->
+            <div id="allBookingsView" class="view-wrapper" style="display:none;">
+                <div class="table-card">
+                    <div class="view-title">📋 All Bookings</div>
+                    <div class="table-controls-row">
+                        <div class="entries-control"><span>Show</span><select id="allEntries"><option>10</option><option>25</option></select><span>entries</span></div>
+                        <div class="search-box"><i class="fas fa-search"></i><input type="text" id="allSearchInput" placeholder="Search bookings..."/></div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead><tr><th>No</th><th>Applicant</th><th>Event</th><th>Space</th><th>Start</th><th>End</th><th>Status</th><th>Action</th></tr></thead>
+                            <tbody id="allBookingsBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="table-footer"><div class="showing-info" id="allShowingInfo"></div><div class="pagination" id="allPagination"></div></div>
+                </div>
+            </div>
+
+            <!-- SPACE LIST -->
+            <div id="spaceListView" class="view-wrapper" style="display:none;">
+                <div class="table-card">
+                    <div class="view-title">🏢 Space List</div>
+                    <div class="table-controls-row">
+                        <div class="entries-control"><span>Show</span><select id="spaceEntries"><option>10</option></select><span>entries</span></div>
+                        <button class="btn-add" onclick="openAddSpaceModal()"><i class="fas fa-plus"></i> Add Space</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead><tr><th>Space Code</th><th>Description</th><th>Category</th><th>Capacity</th><th>Rate</th><th>Operation Time</th><th>Action</th></tr></thead>
+                            <tbody id="spaceListBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="table-footer"><div class="showing-info" id="spaceShowingInfo"></div></div>
+                </div>
+            </div>
+
+            <!-- ADMIN CALENDAR -->
+            <div id="adminCalendarView" class="view-wrapper" style="display:none;">
+                <div class="calendar-card">
+                    <div class="calendar-header">
+                        <div class="cal-title"><h2>📅 Space Calendar</h2></div>
+                        <div class="calendar-controls">
+                            <select id="calRoomFilter2" class="cal-room-filter" aria-label="Filter calendar by room">
+                                <option value="">All rooms</option>
+                            </select>
+                            <button class="ctrl-btn" id="calPrevBtn2"><i class="fas fa-chevron-left"></i></button>
+                            <span id="calMonthYear2" style="font-weight:600;color:var(--text);">May 2026</span>
+                            <button class="ctrl-btn" id="calNextBtn2"><i class="fas fa-chevron-right"></i></button>
+                            <button class="ctrl-btn" id="calTodayBtn2">Today</button>
+                        </div>
+                    </div>
+                    <div id="calendarGrid2"></div>
+                </div>
+            </div>
+
+            <!-- REPORTS / ANALYTICS -->
+            <div id="reportsView" class="view-wrapper" style="display:none;" role="region" aria-label="Reports and analytics">
+                <div class="view-title">📊 Reports &amp; Analytics</div>
+
+                <!-- SDP REQUIRED REPORTS (per DFD: Booking Summary, User History, Room Utilization) -->
+                <div class="reports-grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin-bottom:24px;">
+                    <div class="report-card report-launcher">
+                        <i class="fas fa-list-alt" style="font-size:1.8rem;color:#7C3AED;"></i>
+                        <h3>Booking Summary Report</h3>
+                        <p>Date-range overview of all reservations with status totals.</p>
+                        <button class="btn-generate-report" data-report="booking_summary">
+                            <i class="fas fa-file-alt"></i> Generate
+                        </button>
+                    </div>
+                    <div class="report-card report-launcher">
+                        <i class="fas fa-user-clock" style="font-size:1.8rem;color:#3B82F6;"></i>
+                        <h3>User Booking History Report</h3>
+                        <p>Full booking history per user (search by name or student no.).</p>
+                        <button class="btn-generate-report" data-report="user_history">
+                            <i class="fas fa-file-alt"></i> Generate
+                        </button>
+                    </div>
+                    <div class="report-card report-launcher">
+                        <i class="fas fa-building" style="font-size:1.8rem;color:#10B981;"></i>
+                        <h3>Room Utilization Report</h3>
+                        <p>Per-room booking count, hours used, and utilization percentage.</p>
+                        <button class="btn-generate-report" data-report="room_utilization">
+                            <i class="fas fa-file-alt"></i> Generate
+                        </button>
+                    </div>
+                </div>
+
+                <!-- REPORT OUTPUT (filled by JS) -->
+                <div class="report-output" id="reportOutput" style="display:none;">
+                    <div class="report-output-header no-print">
+                        <h3 id="reportOutputTitle">Report</h3>
+                        <div>
+                            <button class="btn-print" id="btnPrintReport"><i class="fas fa-print"></i> Print / PDF</button>
+                            <button class="btn-close-receipt" id="btnCloseReport">Close</button>
+                        </div>
+                    </div>
+                    <div id="reportOutputBody"></div>
+                </div>
+
+                <!-- Headline calculated KPIs -->
+                <div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));">
+                    <div class="stat-card">
+                        <div class="stat-left">
+                            <div class="icon-circle approved-icon" aria-hidden="true"><i class="fas fa-percent"></i></div>
+                            <div>
+                                <div class="stat-number" id="rptApprovalRate" aria-live="polite">—</div>
+                                <div class="stat-label">Approval Rate</div>
+                                <div class="stat-sub" id="rptReviewed">— reviewed</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-left">
+                            <div class="icon-circle booked-icon" aria-hidden="true"><i class="fas fa-people-group"></i></div>
+                            <div>
+                                <div class="stat-number" id="rptAvgParticipants" aria-live="polite">—</div>
+                                <div class="stat-label">Avg Participants</div>
+                                <div class="stat-sub">per active booking</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-left">
+                            <div class="icon-circle space-icon" aria-hidden="true"><i class="fas fa-stopwatch"></i></div>
+                            <div>
+                                <div class="stat-number" id="rptAvgHours" aria-live="polite">—</div>
+                                <div class="stat-label">Avg Hours / Booking</div>
+                                <div class="stat-sub">scheduled duration</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-left">
+                            <div class="icon-circle pending-icon" aria-hidden="true"><i class="fas fa-calendar-day"></i></div>
+                            <div>
+                                <div class="stat-number" id="rptAvgLead" aria-live="polite">—</div>
+                                <div class="stat-label">Avg Lead Time</div>
+                                <div class="stat-sub">days before event</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h3>Approval Breakdown</h3>
+                        <canvas id="chartApproval" aria-label="Approval status breakdown chart" role="img"></canvas>
+                    </div>
+                    <div class="report-card">
+                        <h3>Bookings by Category</h3>
+                        <canvas id="chartCategory" aria-label="Bookings by category chart" role="img"></canvas>
+                    </div>
+                    <div class="report-card" style="grid-column:1 / -1;">
+                        <h3>Booking Trend (last 14 days)</h3>
+                        <canvas id="chartMonthly" aria-label="Daily booking trend chart" role="img"></canvas>
+                    </div>
+                    <div class="report-card" style="grid-column:1 / -1;">
+                        <h3>Peak Hours (start-time distribution)</h3>
+                        <canvas id="chartPeak" aria-label="Peak hours histogram" role="img"></canvas>
+                    </div>
+                </div>
+
+                <!-- Ranked tables -->
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h3>Top 5 Most-Used Spaces (last 30 days)</h3>
+                        <table class="data-table" id="tblTopSpaces">
+                            <thead><tr><th>Code</th><th>Name</th><th>Hrs</th><th>Bkg</th><th>Util %</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTIVITY LOG -->
+            <div id="activityLogView" class="view-wrapper" style="display:none;" role="region" aria-label="Admin activity log">
+                <div class="table-card">
+                    <div class="view-title">📜 Admin Activity Log</div>
+                    <div class="table-controls-row">
+                        <div class="entries-control"><span>Show last</span>
+                            <select id="logLimit" aria-label="Number of log entries">
+                                <option>25</option><option selected>50</option><option>100</option><option>200</option>
+                            </select>
+                            <span>entries</span>
+                        </div>
+                        <button class="btn-add" id="btnRefreshLog" aria-label="Refresh log"><i class="fas fa-rotate" aria-hidden="true"></i> Refresh</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead><tr><th>When</th><th>Admin</th><th>Role</th><th>Action</th><th>Target</th><th>Details</th></tr></thead>
+                            <tbody id="logTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="table-footer"><div class="showing-info" id="logShowingInfo"></div></div>
+                </div>
+            </div>
+
+            <!-- USER MANAGEMENT -->
+            <div id="userManagementView" class="view-wrapper" style="display:none;" role="region" aria-label="User management">
+                <div class="table-card">
+                    <div class="view-title">👥 User Management</div>
+                    <div class="table-controls-row">
+                        <div class="search-box"><i class="fas fa-search"></i><input type="text" id="userSearchInput" placeholder="Search users..."/></div>
+                        <button class="btn-add" id="btnAddUser"><i class="fas fa-user-plus"></i> Add User</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead><tr><th>Name</th><th>Student No</th><th>Campus</th><th>Faculty</th><th>Role</th><th>Action</th></tr></thead>
+                            <tbody id="userTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="table-footer"><div class="showing-info" id="userShowingInfo"></div></div>
+                </div>
+            </div>
+
+            <footer style="text-align:center;margin-top:24px;font-size:0.7rem;color:var(--text-muted);">© RBS Admin Portal — Real‑time space oversight</footer>
+        </main>
+    </div>
+
+    <!-- DETAILS MODAL -->
+    <div class="modal-overlay" id="detailsModal">
+        <div class="modal-content"><div class="modal-header"><h2>📄 Booking Details</h2><button class="modal-close" onclick="closeModal('detailsModal')">&times;</button></div><div id="modalBody"></div></div>
+    </div>
+
+    <!-- ADD SPACE MODAL -->
+    <div class="modal-overlay" id="addSpaceModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>➕ Add New Space</h2><button class="modal-close" onclick="closeModal('addSpaceModal')">&times;</button></div>
+            <div class="form-group"><label>Space Code</label><input type="text" id="newSpaceCode" placeholder="e.g. BK 10"/></div>
+            <div class="form-group"><label>Description</label><input type="text" id="newSpaceDesc" placeholder="e.g. BK10 - BANGUNAN ZETA"/></div>
+            <div class="form-group"><label>Category</label><select id="newSpaceCat"><option>BILIK KULIAH</option><option>BILIK MESYUARAT</option><option>DEWAN</option><option>GELANGGANG</option><option>MAKMAL KOMPUTER</option></select></div>
+            <div class="form-group"><label>Capacity</label><input type="number" id="newSpaceCap" placeholder="e.g. 50"/></div>
+            <div class="form-group"><label>Hourly Rate (RM)</label><input type="number" id="newSpaceRate" step="0.01" min="0" placeholder="e.g. 20.00 (0 for free)"/></div>
+            <div class="form-group"><label>Operation Time</label><input type="text" id="newSpaceTime" placeholder="e.g. 08:00 - 18:00"/></div>
+            <div class="btn-row"><button class="btn-primary" onclick="addNewSpace()">Save Space</button><button class="btn-secondary" onclick="closeModal('addSpaceModal')">Cancel</button></div>
+        </div>
+    </div>
+
+    <!-- ADD USER MODAL -->
+    <div class="modal-overlay" id="addUserModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>➕ Add New User</h2><button class="modal-close" onclick="closeModal('addUserModal')">&times;</button></div>
+            <div class="form-group"><label>Full Name *</label><input type="text" id="newUserName" placeholder="Full name"/></div>
+            <div class="form-group"><label>Email *</label><input type="email" id="newUserEmail" placeholder="user@uitm.edu.my"/></div>
+            <div class="form-group"><label>Password *</label><input type="password" id="newUserPassword" placeholder="Min 6 chars"/></div>
+            <div class="form-group"><label>Student No</label><input type="text" id="newUserStudentNo" placeholder="Optional"/></div>
+            <div class="form-group"><label>Phone</label><input type="text" id="newUserPhone" placeholder="Optional"/></div>
+            <div class="form-group"><label>Role *</label><select id="newUserRole"><option>Student</option><option>Moderator</option><option>Admin</option></select></div>
+            <div class="btn-row"><button class="btn-primary" id="btnSaveUser">Save User</button><button class="btn-secondary" onclick="closeModal('addUserModal')">Cancel</button></div>
+        </div>
+    </div>
+
+    <!-- EDIT SPACE MODAL -->
+    <div class="modal-overlay" id="editSpaceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>✏️ Edit Space</h2>
+                <button class="modal-close" onclick="closeModal('editSpaceModal')">&times;</button>
+            </div>
+            <div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div class="form-group"><label>Space Code *</label><input type="text" id="editSpaceCode"/></div>
+                <div class="form-group"><label>Name *</label><input type="text" id="editSpaceName"/></div>
+                <div class="form-group"><label>Category *</label>
+                    <select id="editSpaceCat">
+                        <option>BILIK KULIAH</option>
+                        <option>BILIK MESYUARAT</option>
+                        <option>DEWAN</option>
+                        <option>GELANGGANG</option>
+                        <option>MAKMAL KOMPUTER</option>
+                        <option>GIMNASIUM</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Capacity</label><input type="number" id="editSpaceCap" min="0"/></div>
+                <div class="form-group"><label>Hourly Rate (RM)</label><input type="number" id="editSpaceRate" step="0.01" min="0" placeholder="0.00"/></div>
+                <div class="form-group"><label>Operation Time</label><input type="text" id="editSpaceTime" placeholder="08:00 - 18:00"/></div>
+                <div class="form-group"><label>Campus</label><input type="text" id="editSpaceCampus"/></div>
+                <div class="form-group" style="grid-column:1 / -1;"><label>Faculty/Department</label><input type="text" id="editSpaceFaculty"/></div>
+                <div class="form-group" style="grid-column:1 / -1;"><label>Moderator(s)</label><input type="text" id="editSpaceMod" placeholder="Comma-separated names"/></div>
+                <div class="form-group" style="grid-column:1 / -1;"><label>Person In Charge (PIC)</label><input type="text" id="editSpacePIC"/></div>
+                <div class="form-group"><label>Status</label>
+                    <select id="editSpaceActive">
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="btn-row" style="margin-top:14px;">
+                <button class="btn-primary" id="btnSaveEditSpace">💾 Save Changes</button>
+                <button class="btn-secondary" onclick="closeModal('editSpaceModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT USER MODAL -->
+    <div class="modal-overlay" id="editUserModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>✏️ Edit User</h2>
+                <button class="modal-close" onclick="closeModal('editUserModal')">&times;</button>
+            </div>
+            <div class="form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div class="form-group"><label>Full Name *</label><input type="text" id="editUserName"/></div>
+                <div class="form-group"><label>Email *</label><input type="email" id="editUserEmail"/></div>
+                <div class="form-group"><label>Phone</label><input type="text" id="editUserPhone"/></div>
+                <div class="form-group"><label>Student/Staff No</label><input type="text" id="editUserStudentNo"/></div>
+                <div class="form-group"><label>Faculty/Department</label><input type="text" id="editUserFaculty"/></div>
+                <div class="form-group"><label>Program/Position</label><input type="text" id="editUserProgram"/></div>
+                <div class="form-group"><label>Campus</label><input type="text" id="editUserCampus"/></div>
+                <div class="form-group"><label>Role *</label>
+                    <select id="editUserRole"><option>Student</option><option>Moderator</option><option>Admin</option></select>
+                </div>
+                <div class="form-group"><label>Status *</label>
+                    <select id="editUserStatus"><option>Active</option><option>Inactive</option></select>
+                </div>
+                <div class="form-group" style="grid-column:1 / -1;">
+                    <label>New Password (leave blank to keep current)</label>
+                    <input type="password" id="editUserPassword" placeholder="Min 6 chars or leave blank"/>
+                </div>
+            </div>
+            <div class="btn-row" style="margin-top:14px;">
+                <button class="btn-primary" id="btnSaveEditUser">💾 Save Changes</button>
+                <button class="btn-secondary" onclick="closeModal('editUserModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../js/i18n.js"></script>
+    <script src="../js/admin_dashboard_script.js"></script>
+    <script>
+        document.getElementById('langToggleBtn')?.addEventListener('click', () => window.i18n.toggle());
+        window.addEventListener('i18n:changed', () => {
+            if (window.i18n) setTimeout(() => window.i18n.applyAll(), 50);
+        });
+    </script>
+</body>
+</html>

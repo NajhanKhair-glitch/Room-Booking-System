@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 248" role="img" aria-label="Open sports field">
+  <defs>
+    <linearGradient id="fdBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E6F6E9"/><stop offset="1" stop-color="#CFEAD7"/>
+    </linearGradient>
+  </defs>
+  <rect width="440" height="248" fill="url(#fdBg)"/>
+  <clipPath id="fdClip"><rect x="34" y="56" width="372" height="150" rx="10"/></clipPath>
+  <g clip-path="url(#fdClip)">
+    <rect x="34" y="56" width="372" height="150" fill="#5CB36B"/>
+    <rect x="34"  y="56" width="53" height="150" fill="#55AC63"/>
+    <rect x="140" y="56" width="53" height="150" fill="#55AC63"/>
+    <rect x="246" y="56" width="53" height="150" fill="#55AC63"/>
+    <rect x="352" y="56" width="53" height="150" fill="#55AC63"/>
+  </g>
+  <g fill="none" stroke="#FFFFFF" stroke-width="3">
+    <rect x="46" y="68" width="348" height="126" rx="4"/>
+    <line x1="220" y1="68" x2="220" y2="194"/>
+    <circle cx="220" cy="131" r="30"/>
+  </g>
+  <!-- grandstand -->
+  <g>
+    <rect x="150" y="34" width="140" height="20" rx="5" fill="#94A0B5"/>
+    <line x1="160" y1="44" x2="280" y2="44" stroke="#7C879B" stroke-width="3"/>
+  </g>
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 248" role="img" aria-label="Futsal court">
+  <defs>
+    <linearGradient id="ftBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E6F6E9"/><stop offset="1" stop-color="#D2EED9"/>
+    </linearGradient>
+  </defs>
+  <rect width="440" height="248" fill="url(#ftBg)"/>
+  <!-- turf with mowing stripes -->
+  <clipPath id="ftClip"><rect x="40" y="44" width="360" height="160" rx="10"/></clipPath>
+  <g clip-path="url(#ftClip)">
+    <rect x="40" y="44" width="360" height="160" fill="#5CB36B"/>
+    <rect x="40"  y="44" width="60" height="160" fill="#54AC63"/>
+    <rect x="160" y="44" width="60" height="160" fill="#54AC63"/>
+    <rect x="280" y="44" width="60" height="160" fill="#54AC63"/>
+  </g>
+  <g fill="none" stroke="#FFFFFF" stroke-width="3">
+    <rect x="52" y="56" width="336" height="136" rx="4"/>
+    <line x1="220" y1="56" x2="220" y2="192"/>
+    <circle cx="220" cy="124" r="30"/>
+    <rect x="52" y="92" width="30" height="64"/>
+    <rect x="358" y="92" width="30" height="64"/>
+  </g>
+  <!-- goals -->
+  <rect x="34" y="104" width="8" height="40" rx="2" fill="#FFFFFF"/>
+  <rect x="398" y="104" width="8" height="40" rx="2" fill="#FFFFFF"/>
+  <!-- ball -->
+  <g>
+    <circle cx="160" cy="124" r="12" fill="#FFFFFF" stroke="#9AA3B8" stroke-width="1.5"/>
+    <polygon points="160,116 166,121 164,129 156,129 154,121" fill="#3C4658"/>
+  </g>
+</svg>
